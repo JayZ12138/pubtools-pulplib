@@ -87,11 +87,14 @@ def test_report_add_remove():
 
     assert len(report.entries) == 3
     assert report.last_updated_by == "ContentDelivery"
+    old_utcnow = report.last_updated
 
     report = report.remove(repo_ids=["repo1", "repo2"], owner="jazhang")
 
     assert len(report.entries) == 1
     assert report.last_updated_by == "jazhang"
+    # timestamp should be updated
+    assert report.last_updated != old_utcnow
 
 
 def test_export_empty_report():
